@@ -83,7 +83,6 @@ export default function Home() {
         <td className="px-4 py-3 max-w-[350px] truncate">
           <a
             href={`https://url-shortner-3u3d.onrender.com/${l.code}`}
-
             target="_blank"
             className="text-blue-400 underline"
           >
