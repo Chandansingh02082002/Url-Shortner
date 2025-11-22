@@ -10,7 +10,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const API = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL,
+    baseURL:'https://url-shortner-3u3d.onrender.com/api',
   });
 
   const fetchLinks = async () => {
