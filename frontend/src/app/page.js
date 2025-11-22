@@ -11,7 +11,7 @@ export default function Home() {
 
   const fetchLinks = async () => {
     try {
-      const res = await API.get("/");   // GET /api/links
+      const res = await API.get("");   // FIXED ✔
       setLinks(res.data);
     } catch (err) {
       console.log("Fetch error:", err);
@@ -27,7 +27,7 @@ export default function Home() {
 
     setLoading(true);
     try {
-      await API.post("/", { url, code });   // POST /api/links
+      await API.post("", { url, code });   // FIXED ✔
       setUrl("");
       setCode("");
       fetchLinks();
@@ -39,7 +39,7 @@ export default function Home() {
 
   const remove = async (c) => {
     try {
-      await API.delete(`/${c}`);   // DELETE /api/links/:code
+      await API.delete(`/${c}`);   // DELETE /api/links/:code ✔ correct
       fetchLinks();
     } catch (err) {
       console.log("Delete error:", err);
