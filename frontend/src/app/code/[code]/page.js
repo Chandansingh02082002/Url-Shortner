@@ -1,8 +1,8 @@
 export default async function Stats({ params }) {
-  const { code } = await params;
+  const { code } = params;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/links/${code}`,
+    `https://url-shortner-3u3d.onrender.com/api/links/${code}`,
     { cache: "no-store" }
   );
 
