@@ -8,7 +8,7 @@ export default function CodeHome() {
 
   const fetchLinks = async () => {
     try {
-      const res = await API.get("/");  // GET /api/links
+      const res = await API.get("");   // FIXED ✔
       setLinks(res.data);
     } catch (err) {
       console.log("Fetch error:", err);
