@@ -7,8 +7,12 @@ export default function CodeHome() {
   const [links, setLinks] = useState([]);
 
   const fetchLinks = async () => {
-    const res = await API.get("/");
-    setLinks(res.data);
+    try {
+      const res = await API.get("/");  // GET /api/links
+      setLinks(res.data);
+    } catch (err) {
+      console.log("Fetch error:", err);
+    }
   };
 
   useEffect(() => {

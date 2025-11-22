@@ -11,7 +11,7 @@ export default function Home() {
 
   const fetchLinks = async () => {
     try {
-      const res = await API.get("/");
+      const res = await API.get("/");   // GET /api/links
       setLinks(res.data);
     } catch (err) {
       console.log("Fetch error:", err);
@@ -27,7 +27,7 @@ export default function Home() {
 
     setLoading(true);
     try {
-      await API.post("/", { url, code });
+      await API.post("/", { url, code });   // POST /api/links
       setUrl("");
       setCode("");
       fetchLinks();
@@ -38,8 +38,12 @@ export default function Home() {
   };
 
   const remove = async (c) => {
-    await API.delete(`/${c}`);
-    fetchLinks();
+    try {
+      await API.delete(`/${c}`);   // DELETE /api/links/:code
+      fetchLinks();
+    } catch (err) {
+      console.log("Delete error:", err);
+    }
   };
 
   return (
@@ -91,7 +95,9 @@ export default function Home() {
                   target="_blank"
                   className="text-blue-400 underline"
                 >
-                  {l.url.length > 40 ? l.url.substring(0, 40) + "..." : l.url}
+                  {l.url.length > 40
+                    ? l.url.substring(0, 40) + "..."
+                    : l.url}
                 </a>
               </td>
 
