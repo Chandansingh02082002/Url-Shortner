@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { API } from "../lib/api";
 
 export default function Home() {
   const [links, setLinks] = useState([]);
@@ -9,14 +9,9 @@ export default function Home() {
   const [code, setCode] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const API = axios.create({
-  baseURL:'https://url-shortner-3u3d.onrender.com/api/links',
-});
-
-
   const fetchLinks = async () => {
     try {
-      const res = await API.get("/links");
+      const res = await API.get("/");
       setLinks(res.data);
     } catch (err) {
       console.log("Fetch error:", err);
@@ -32,7 +27,7 @@ export default function Home() {
 
     setLoading(true);
     try {
-      await API.post("/links", { url, code });
+      await API.post("/", { url, code });
       setUrl("");
       setCode("");
       fetchLinks();
@@ -43,66 +38,70 @@ export default function Home() {
   };
 
   const remove = async (c) => {
-    await API.delete(`/links/${c}`);
+    await API.delete(`/${c}`);
     fetchLinks();
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1 style={{ fontSize: "36px", fontWeight: "bold", marginBottom: "20px" }}>
-        TinyLink Dashboard
-      </h1>
+    <div className="p-10 max-w-3xl mx-auto">
+      <h1 className="text-3xl font-bold mb-6">TinyLink Dashboard</h1>
 
-      <div style={{ marginBottom: "20px" }}>
+      <div className="mb-6 space-y-3">
         <input
+          className="border p-2 w-full"
           placeholder="Enter long URL"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          style={{ padding: "10px", width: "300px", marginRight: "10px" }}
         />
-
         <input
+          className="border p-2 w-full"
           placeholder="Custom code (optional)"
           value={code}
           onChange={(e) => setCode(e.target.value)}
-          style={{ padding: "10px", width: "200px", marginRight: "10px" }}
         />
 
         <button
+          className="bg-blue-600 text-white px-4 py-2 rounded"
           onClick={create}
           disabled={loading}
-          style={{ padding: "10px 20px", cursor: "pointer" }}
         >
           {loading ? "Creating..." : "Create"}
         </button>
       </div>
 
-      <table border="1" cellPadding="10">
+      <table className="w-full border-separate border-spacing-x-10 border-spacing-y-3 mt-8">
         <thead>
-          <tr>
-            <th>Code</th>
-            <th>URL</th>
-            <th>Clicks</th>
-            <th>Last Clicked</th>
-            <th>Actions</th>
+          <tr className="bg-gray-800">
+            <th className="px-4 py-3 text-left">Code</th>
+            <th className="px-4 py-3 text-left">URL</th>
+            <th className="px-4 py-3 text-center">Clicks</th>
+            <th className="px-4 py-3 text-left">Last Clicked</th>
+            <th className="px-4 py-3 text-center">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           {links.map((l) => (
-            <tr key={l.code}>
-              <td>{l.code}</td>
-              <td>
-                <a href={`/code/${l.code}`} style={{ color: "blue" }}>
-                  {l.url}
+            <tr key={l.code} className="hover:bg-gray-900 rounded-lg">
+              <td className="px-4 py-3">{l.code}</td>
+
+              <td className="px-4 py-3 max-w-[350px] truncate">
+                <a
+                  href={`https://url-shortner-3u3d.onrender.com/${l.code}`}
+                  target="_blank"
+                  className="text-blue-400 underline"
+                >
+                  {l.url.length > 40 ? l.url.substring(0, 40) + "..." : l.url}
                 </a>
               </td>
-              <td>{l.clicks}</td>
-              <td>{l.lastClicked || "Never"}</td>
-              <td>
+
+              <td className="px-4 py-3 text-center">{l.clicks}</td>
+              <td className="px-4 py-3">{l.lastClicked || "—"}</td>
+
+              <td className="px-4 py-3 text-center">
                 <button
+                  className="text-red-400 hover:underline"
                   onClick={() => remove(l.code)}
-                  style={{ color: "red", cursor: "pointer" }}
                 >
                   Delete
                 </button>
