@@ -1,10 +1,8 @@
 export default async function Stats({ params }) {
   const { code } = params;
 
-  const res = await fetch(
-  `https://url-shortner-3u3d.onrender.com/api/links/${code}`,
-  { cache: "no-store" }
-);
+  fetch(`https://url-shortner-3u3d.onrender.com/api/links/${code}`)
+
 
   const data = await res.json();
 

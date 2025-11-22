@@ -10,8 +10,9 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const API = axios.create({
-    baseURL:'https://url-shortner-3u3d.onrender.com/api/links',
-  });
+  baseURL:'https://url-shortner-3u3d.onrender.com/api/links',
+});
+
 
   const fetchLinks = async () => {
     try {
